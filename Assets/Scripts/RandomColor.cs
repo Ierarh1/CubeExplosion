@@ -15,7 +15,7 @@ public class RandomColor : MonoBehaviour
         }
     }
 
-    public void ApplyRandomColor()
+    private void ApplyRandomColor()
     {
         if (!_allowMultipleChanges && _hasBeenColored)
             return;
