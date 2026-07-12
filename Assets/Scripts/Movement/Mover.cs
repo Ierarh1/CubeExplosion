@@ -6,7 +6,6 @@ public class Mover : MonoBehaviour
     [SerializeField] private Transform _cameraTransform; 
     [SerializeField] private InputHandler _inputHandler;
 
-
     private Rigidbody _rigidbody;
 
     private void Awake() => 
