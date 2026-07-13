@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SpawnChildrensCubes : MonoBehaviour
+public class CubeLifeCycle : MonoBehaviour
 {
     [SerializeField] private Cube _cubePrefab;
     [SerializeField] private int _minSplitCount = 2;
@@ -8,28 +8,44 @@ public class SpawnChildrensCubes : MonoBehaviour
     [SerializeField] private float _offsetFactor = 0.35f;
     [SerializeField] private float _scaleFactor = 0.5f;
 
-    private void OnEnable() => 
+    [Header("Инициализация спавна")]
+    [SerializeField] private Vector3 _startPosition;
+    [SerializeField] private Vector3 _startScale = Vector3.one;
+    [SerializeField] private float _startSplitChance = 1f;
+    [SerializeField] private int _amountCube;
+
+    private void OnEnable() =>
         Cube.Clicked += OnCubeClicked;
-    private void OnDisable() => 
+    private void OnDisable() =>
         Cube.Clicked -= OnCubeClicked;
+
+    private void Start()
+    {
+        for (int i = 0; i < _amountCube; i++)
+        {
+            Vector3 spawnPos = _startPosition + new Vector3(i, i, i);
+
+            Spawn(spawnPos, _startScale, _startSplitChance);
+        }
+    }
 
     public Cube[] SpawnChildren(Cube parent, float childrenSplitChance)
     {
         int count = Random.Range(_minSplitCount, _maxSplitCount + 1);
         Cube[] children = new Cube[count];
-        
+
         Vector3 center = parent.transform.position;
 
         Vector3 parentScale = parent.transform.localScale;
         Vector3 childScale = parentScale * _scaleFactor;
-     
+
         float offsetAmount = parentScale.x * _offsetFactor;
 
 
         for (int i = 0; i < count; i++)
         {
             Vector3 spawnPos = center + Random.insideUnitSphere * offsetAmount;
-        
+
             children[i] = Spawn(spawnPos, childScale, childrenSplitChance);
         }
 
