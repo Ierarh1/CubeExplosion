@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class CubeLifeCycle : MonoBehaviour
+public class CubeSpawner : MonoBehaviour
 {
     [SerializeField] private Cube _cubePrefab;
     [SerializeField] private int _minSplitCount = 2;
@@ -14,10 +15,7 @@ public class CubeLifeCycle : MonoBehaviour
     [SerializeField] private float _startSplitChance = 1f;
     [SerializeField] private int _amountCube;
 
-    private void OnEnable() =>
-        Cube.Clicked += OnCubeClicked;
-    private void OnDisable() =>
-        Cube.Clicked -= OnCubeClicked;
+    public event Action<Cube> CubeSpawned;
 
     private void Start()
     {
@@ -31,7 +29,7 @@ public class CubeLifeCycle : MonoBehaviour
 
     public Cube[] SpawnChildren(Cube parent, float childrenSplitChance)
     {
-        int count = Random.Range(_minSplitCount, _maxSplitCount + 1);
+        int count = UnityEngine.Random.Range(_minSplitCount, _maxSplitCount + 1);
         Cube[] children = new Cube[count];
 
         Vector3 center = parent.transform.position;
@@ -44,7 +42,7 @@ public class CubeLifeCycle : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            Vector3 spawnPos = center + Random.insideUnitSphere * offsetAmount;
+            Vector3 spawnPos = center + UnityEngine.Random.insideUnitSphere * offsetAmount;
 
             children[i] = Spawn(spawnPos, childScale, childrenSplitChance);
         }
@@ -57,13 +55,11 @@ public class CubeLifeCycle : MonoBehaviour
         Cube cube = Instantiate(_cubePrefab, position, Quaternion.identity);
 
         cube.transform.localScale = scale;
-        cube.SplitChance = splitChance;
+
+        cube.SetSplitChance(splitChance);
+
+        CubeSpawned?.Invoke(cube);
 
         return cube;
-    }
-
-    private void OnCubeClicked(Cube cube)
-    {
-        Destroy(cube.gameObject);
     }
 }

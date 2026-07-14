@@ -7,12 +7,13 @@ public class InputHandler : MonoBehaviour
     private string _mouseXAxis = "Mouse X";
     private string _mouseYAxis = "Mouse Y";
 
-    public Vector2 MoveInput { get; private set; }
-    public Vector2 LookInput { get; private set; }
+    public Vector2 MoveInput()
+    { 
+        return new Vector2(Input.GetAxis(_horizontalAxis), Input.GetAxis(_verticalAxis));
+    }
 
-    private void Update()
+    public Vector2 LookInput()
     {
-        MoveInput = new Vector2(Input.GetAxis(_horizontalAxis), Input.GetAxis(_verticalAxis));
-        LookInput = new Vector2(Input.GetAxis(_mouseXAxis), Input.GetAxis(_mouseYAxis));
+        return new Vector2(Input.GetAxis(_mouseXAxis), Input.GetAxis(_mouseYAxis));
     }
 }

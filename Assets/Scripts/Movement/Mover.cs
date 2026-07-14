@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Mover : MonoBehaviour
 {
     [SerializeField] private float _speed;
@@ -13,7 +14,7 @@ public class Mover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 move = _inputHandler.MoveInput;
+        Vector2 move = _inputHandler.MoveInput();
 
         Vector3 direction = _cameraTransform.TransformDirection(new Vector3(move.x, 0, move.y));
         direction = Vector3.ClampMagnitude(direction, 1f);

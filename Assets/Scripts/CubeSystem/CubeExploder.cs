@@ -11,13 +11,11 @@ public class CubeExploder : MonoBehaviour
     {
         foreach (Cube target in targets)
         {
-            if (target.TryGetComponent(out Rigidbody rigidbody) == false) 
+            if (target.TryGetComponent(out Rigidbody rigidbody) == true) 
             {
-                rigidbody = target.gameObject.AddComponent<Rigidbody>();
-            }   
-
-            rigidbody.AddExplosionForce(_explosionForce, center, _explosionRadius, _upwardsModifier, ForceMode.Impulse);
-            rigidbody.AddTorque(Random.insideUnitSphere * _randomTorque, ForceMode.Impulse);
+                rigidbody.AddExplosionForce(_explosionForce, center, _explosionRadius, _upwardsModifier, ForceMode.Impulse);
+                rigidbody.AddTorque(Random.insideUnitSphere * _randomTorque, ForceMode.Impulse);
+            }      
         }
     }
 }

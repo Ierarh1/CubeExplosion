@@ -2,16 +2,17 @@ using UnityEngine;
 
 public class SplitCoordinator : MonoBehaviour
 {
-    [SerializeField] private CubeLifeCycle _spawner;
+    [SerializeField] private CubeSpawner _spawner;
+    [SerializeField] private CubeDestroyer _destroyer;
     [SerializeField] private CubeExploder _exploder;
     [SerializeField] private float _chanceDivider = 2f;
 
     private Cube[] children;
 
-    private void OnEnable() => 
-        Cube.Clicked += OnCubeClicked;
-    private void OnDisable() => 
-        Cube.Clicked -= OnCubeClicked;
+    private void OnEnable() =>
+        _destroyer.CubeClicked += OnCubeClicked;
+    private void OnDisable() =>
+        _destroyer.CubeClicked -= OnCubeClicked;
 
     private void OnCubeClicked(Cube cube)
     {

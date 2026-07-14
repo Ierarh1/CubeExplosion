@@ -10,7 +10,7 @@ public class Rotator : MonoBehaviour
 
     private void Update()
     {
-        Vector2 look = _inputHandler.LookInput;
+        Vector2 look = _inputHandler.LookInput();
 
         _camera.Rotate(_speed * -look.y * Time.deltaTime * Vector3.right);
         _body.Rotate(_speed * look.x * Time.deltaTime * Vector3.up);
